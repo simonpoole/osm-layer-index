@@ -1,4 +1,4 @@
-ALL = imagery.geojson imagery.json imagery.xml i18n/en.yaml
+ALL = imagery.geojson imagery.json imagery.xml imagery_tms_minified.json i18n/en.yaml
 SOURCES = $(shell find sources -type f -name '*.geojson' | LC_ALL="C" sort)
 PYTHON = python
 TX := $(shell which tx)
@@ -19,6 +19,9 @@ imagery.json: $(SOURCES)
 
 imagery.geojson: $(SOURCES)
 	@$(PYTHON) scripts/concat_geojson.py $(SOURCES) > imagery.geojson
+
+imagery_tms_minified.json: $(SOURCES)
+	python scripts/convert_geojson_to_legacyjson.py -btr $(SOURCES) | json-minify > imagery_tms_minified.json
 
 i18n/en.yaml: $(SOURCES)
 	@$(PYTHON) scripts/extract_i18n.py $(SOURCES) > $@
