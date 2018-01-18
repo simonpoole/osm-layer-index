@@ -19,6 +19,9 @@ imagery.json: $(SOURCES)
 
 imagery.geojson: $(SOURCES)
 	@$(PYTHON) scripts/concat_geojson.py $(SOURCES) > imagery.geojson
+	
+imagery.geojson: $(SOURCES)
+	@$(PYTHON) scripts/concat_geojson.py $(SOURCES) | json-minify > imagery_minified.geojson
 
 imagery_tms_minified.json: $(SOURCES)
 	python scripts/convert_geojson_to_legacyjson.py -btr $(SOURCES) | json-minify > imagery_tms_minified.json
